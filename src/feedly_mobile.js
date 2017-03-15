@@ -38,7 +38,10 @@
   // was just "L"oaded.
   function ($, L) {
     '$:nomunge, L:nomunge'; // Used by YUI compressor.
+    doWork($);
+  });
 
+var doWork = function($) {
     function addcss(css) {
       var head = document.getElementsByTagName('head')[0];
       var s = document.createElement('style');
@@ -100,4 +103,4 @@ div.profile-bubble, i.feedly-logo {\
     pageHeaderOptions.addClass('col-xs-12');
 
     addcss(cssStyle);
-  });
+};

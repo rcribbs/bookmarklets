@@ -5,7 +5,7 @@ for filename in src/*.js; do
   relative_filename=${filename#src/}
   name=${relative_filename%.js}
   echo "Compiling '$filename'..."
-  uglifyjs $filename -r "$,L" -o "min/$name.min.js"
+  uglifyjs $filename -r "$,L" -cmo "min/$name.min.js"
   echo "Creating bookmarklet..."
   echo -n "javascript:" > "marklets/$name.min.mark.js"; cat "min/$name.min.js" >> "marklets/$name.min.mark.js"
   echo "Creating stub-version bookmarklet..."
