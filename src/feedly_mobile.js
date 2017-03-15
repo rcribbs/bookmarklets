@@ -89,18 +89,41 @@ div.profile-bubble, i.feedly-logo {
 }
   `;
 
-
-
+    addcss(cssStyle);
 
     $('#feedlyTabsUnpin').click();
 
-    var pageHeader = $('#feedlyPageFX h1');
-    pageHeader.removeClass('col-xs-8');
-    pageHeader.addClass('col-xs-12');
+    var getPageUpdateFunc = function($) {
+      return function() {
+        var pageHeader = $('#feedlyPageFX h1');
+        pageHeader.removeClass('col-xs-8');
+        pageHeader.addClass('col-xs-12');
 
-    var pageHeaderOptions = $('#feedlyPageFX div.extra');
-    pageHeaderOptions.removeClass('col-xs-4');
-    pageHeaderOptions.addClass('col-xs-12');
+        var pageHeaderOptions = $('#feedlyPageFX div.extra');
+        pageHeaderOptions.removeClass('col-xs-4');
+        pageHeaderOptions.addClass('col-xs-12');
 
-    addcss(cssStyle);
+        $('div.entry').each(function(elem) {
+          $(document).on('click', 'div.entry', function(e) {
+            var elem = $(this);
+            window.location.href = elem.attr('data-alternate-link');
+            e.preventDefault();
+            e.stopPropagation();
+          });
+        });
+      };
+    };
+
+  var pageUpdate = getPageUpdateFunc($);
+
+  MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+  var observer = new MutationObserver(function(mutations, observer) {
+    pageUpdate();
+  });
+
+  observer.observe($('div#feedlyCenter'), {
+    subtree: true,
+    attributes: false,
+    characterData: false,
+  });
 };
