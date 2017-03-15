@@ -1,3 +1,5 @@
+(function() {
+
 function addcss(css){
 	var head = document.getElementsByTagName('head')[0];
 	var s = document.createElement('style');
@@ -63,3 +65,5 @@ pageHeaderOptions.removeClass('col-xs-4');
 pageHeaderOptions.addClass('col-xs-12');
 
 addcss(cssStyle);
+
+})();

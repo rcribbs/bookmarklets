@@ -9,5 +9,5 @@ for filename in src/*.js; do
   echo "Creating bookmarklet..."
   echo "javascript:" > "marklets/$name.min.mark.js"; cat "min/$name.min.js" >> "marklets/$name.min.mark.js"
   echo "Creating stub-version bookmarklet..."
-  echo -n "javascript:(function(){_my_script=document.createElement('SCRIPT');_my_script.type='text/javascript';_my_script.src='https://cdn.rawgit.com/rcribbs/bookmarklets/master/min/$name.min.js';document.getElementsByTagName('head')[0].appendChild(_my_script);})();" > "stubs/$name.url"
+  echo -n "javascript:(function(){_$name=document.createElement('SCRIPT');_$name.type='text/javascript';_$name.src='https://cdn.rawgit.com/rcribbs/bookmarklets/master/min/$name.min.js?ranid='+(Math.random());document.getElementsByTagName('head')[0].appendChild(_$name);})();" > "stubs/$name.url"
 done
