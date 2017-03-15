@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # TODO: Use git remote to dynamically set url for rawgit instead of hardcoded.
-for filename in *.js; do
-  name=${filename%.js}
+for filename in src/*.js; do
+  relative_filename=${filename#src/}
+  name=${relative_filename%.js}
   echo "Compiling '$filename'..."
   babel $filename | uglifyjs -cmo "min/$name.min.js"
   echo "Creating bookmarklet..."
