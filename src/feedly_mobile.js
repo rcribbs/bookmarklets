@@ -51,40 +51,40 @@
       head.appendChild(s);
     }
 
-    var cssStyle = `
-#feedlyFrame {
-  margin-left: 0px !important;
-}
-
-#feedlyTabsHolder {
-  display: none;
-}
-
-.pro {
-  display: none;
-}
-
-div.hercule-search input {
-  font-size: .7rem !important;
-}
-
-search-bar-right-col {
-  float: none;
-}
-
-div.profile-bubble, i.feedly-logo {
-  display: none !important;
-}
-
-#searchBarFX {
-  width: 100% !important;
-}
-
-#headerBarFX {
-  left: 0px !important;
-  top: auto !important;
-}
-  `;
+    var cssStyle = "\
+#feedlyFrame {\
+  margin-left: 0px !important;\
+}\
+\
+#feedlyTabsHolder {\
+  display: none;\
+}\
+\
+.pro {\
+  display: none;\
+}\
+\
+div.hercule-search input {\
+  font-size: .7rem !important;\
+}\
+\
+search-bar-right-col {\
+  float: none;\
+}\
+\
+div.profile-bubble, i.feedly-logo {\
+  display: none !important;\
+}\
+\
+#searchBarFX {\
+  width: 100% !important;\
+}\
+\
+#headerBarFX {\
+  left: 0px !important;\
+  top: auto !important;\
+}\
+  ";
 
 
 
