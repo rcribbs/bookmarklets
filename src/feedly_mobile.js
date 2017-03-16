@@ -70,6 +70,10 @@ var doWork = function($) {
         width: 100%;
       }
 
+      #feedlyTabsHolder.pinned #feedlyTabs {
+        width: 80%;
+      }
+
       .pro {
         display: none;
       }
@@ -117,6 +121,10 @@ var doWork = function($) {
       #customMenuButtonContainer.hidden {
         display: none;
       }
+
+      #feedlyTabsUnpin {
+        display: none !important;
+      }
   `;
 
     addcss(cssStyle);
@@ -162,9 +170,13 @@ var doWork = function($) {
       if (body.find('#customMenuButtonContainer').length === 0) {
         console.log("Adding menu button...");
         body.append("<div id='customMenuButtonContainer'><div id='customMenuButton'></div></div>");
-        $('div#customMenuButtonContainer').click(function() {
-          openMenu($);
-        });
+        $(document).on(
+          'click',
+          'div#customMenuButtonContainer',
+          function(event) {
+            openMenu($);
+          }
+        );
       }
     };
 
@@ -190,12 +202,12 @@ var doWork = function($) {
 
 var openMenu = function($) {
   $('#feedlyFrame').addClass('hidden');
-  $('#feedlyTabsPin').click();
+  $('#feedlyTabsPin').trigger("click");
   $('#customMenuButtonContainer').addClass('hidden');
 };
 
 var closeMenu = function($) {
   $('#feedlyFrame').removeClass('hidden');
-  $('#feedlyTabsUnpin').click();
+  $('#feedlyTabsUnpin').trigger("click");
   $('#customMenuButtonContainer').removeClass('hidden');
 };
