@@ -54,38 +54,69 @@ var doWork = function($) {
     }
 
     var cssStyle = `
-#feedlyFrame {
-  margin-left: 0px !important;
-}
+      #feedlyFrame {
+        margin-left: 0px !important;
+      }
 
-#feedlyTabsHolder {
-  display: none;
-}
+      #feedlyTabsHolder.unpinned {
+        display: none;
+      }
 
-.pro {
-  display: none;
-}
+      #feedlyFrame.hidden {
+        display: none !important;
+      }
 
-div.hercule-search input {
-  font-size: .7rem !important;
-}
+      #feedlyTabsHolder.pinned {
+        width: 100%;
+      }
 
-search-bar-right-col {
-  float: none;
-}
+      .pro {
+        display: none;
+      }
 
-div.profile-bubble, i.feedly-logo {
-  display: none !important;
-}
+      div.hercule-search input {
+        font-size: .7rem !important;
+      }
 
-#searchBarFX {
-  width: 100% !important;
-}
+      search-bar-right-col {
+        float: none;
+      }
 
-#headerBarFX {
-  left: 0px !important;
-  top: auto !important;
-}
+      div.profile-bubble, i.feedly-logo {
+        display: none !important;
+      }
+
+      #searchBarFX {
+        width: 100% !important;
+      }
+
+      #headerBarFX {
+        left: 0px !important;
+        top: auto !important;
+      }
+
+      #customMenuButtonContainer {
+        width: 52px;
+        height: 52px;
+        background: #2A2B2F;
+        z-index: 5;
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        cursor: pointer;
+        cursor: hand;
+      }
+
+      #customMenuButton {
+        color: white;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://s3.feedly.com/production/head/images/icon-feedly-white.png');
+      }
+
+      #customMenuButtonContainer.hidden {
+        display: none;
+      }
   `;
 
     addcss(cssStyle);
@@ -102,27 +133,69 @@ div.profile-bubble, i.feedly-logo {
       }
     );
 
+    $('#feedlyTabsHolder').on(
+      'click',
+      '.header div.label, .feedIndex',
+      function(event) {
+        closeMenu($);
+        return true;
+      }
+    );
+
     var pageUpdate = function($) {
       var pageHeader = $('#feedlyPageFX h1');
-      pageHeader.removeClass('col-xs-8');
-      pageHeader.addClass('col-xs-12');
+
+      if (pageHeader.hasClass('col-xs-8')) {
+        pageHeader.removeClass('col-xs-8');
+        pageHeader.addClass('col-xs-12');
+      }
 
       var pageHeaderOptions = $('#feedlyPageFX div.extra');
-      pageHeaderOptions.removeClass('col-xs-4');
-      pageHeaderOptions.addClass('col-xs-12');
-    };
 
+      if (pageHeaderOptions.hasClass('col-xs-4')) {
+        pageHeaderOptions.removeClass('col-xs-4');
+        pageHeaderOptions.addClass('col-xs-12');
+      }
+
+      body = $('body');
+
+      if (body.find('#customMenuButtonContainer').length === 0) {
+        console.log("Adding menu button...");
+        body.append("<div id='customMenuButtonContainer'><div id='customMenuButton'></div></div>");
+        $('div#customMenuButtonContainer').click(function() {
+          openMenu($);
+        });
+      }
+    };
 
   pageUpdate($);
 
   MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-  var observer = new MutationObserver(function(mutations, observer) {
+  var observer = new MutationObserver(function(mutations) {
     pageUpdate($);
+    return true;
   });
 
-  observer.observe($('div#feedlyCenter').get(0), {
-    subtree: true,
-    attributes: false,
-    characterData: false,
-  });
+  var observerTarget = $('div#feedlyCenter').get(0);
+  observer.observe(
+    observerTarget,
+    {
+      subtree: true,
+      attributes: true,
+      characterData: true,
+      childList: true
+    }
+  );
+};
+
+var openMenu = function($) {
+  $('#feedlyFrame').addClass('hidden');
+  $('#feedlyTabsPin').click();
+  $('#customMenuButtonContainer').addClass('hidden');
+};
+
+var closeMenu = function($) {
+  $('#feedlyFrame').removeClass('hidden');
+  $('#feedlyTabsUnpin').click();
+  $('#customMenuButtonContainer').removeClass('hidden');
 };
