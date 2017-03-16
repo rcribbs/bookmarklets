@@ -31,13 +31,12 @@
   window,
   document,
   // Minimum jQuery version required. Change this as-needed.
-  '1.3.2',
+  '3.1.1',
   //
   // Your jQuery code goes inside this callback. $ refers to the jQuery object,
   // and L is a boolean that indicates whether or not an external jQuery file
   // was just "L"oaded.
   function ($, L) {
-    '$:nomunge, L:nomunge'; // Used by YUI compressor.
     doWork($);
   });
 
@@ -93,35 +92,35 @@ div.profile-bubble, i.feedly-logo {
 
     $('#feedlyTabsUnpin').click();
 
-    var getPageUpdateFunc = function($) {
-      return function() {
-        var pageHeader = $('#feedlyPageFX h1');
-        pageHeader.removeClass('col-xs-8');
-        pageHeader.addClass('col-xs-12');
+    $(document).on(
+      'click',
+      'div.entry',
+      function(event) {
+        var elem = $(this);
+        window.location.href = elem.attr('data-alternate-link');
+        return false;
+      }
+    );
 
-        var pageHeaderOptions = $('#feedlyPageFX div.extra');
-        pageHeaderOptions.removeClass('col-xs-4');
-        pageHeaderOptions.addClass('col-xs-12');
+    var pageUpdate = function($) {
+      var pageHeader = $('#feedlyPageFX h1');
+      pageHeader.removeClass('col-xs-8');
+      pageHeader.addClass('col-xs-12');
 
-        $('div.entry').each(function(elem) {
-          $(document).on('click', 'div.entry', function(e) {
-            var elem = $(this);
-            window.location.href = elem.attr('data-alternate-link');
-            e.preventDefault();
-            e.stopPropagation();
-          });
-        });
-      };
+      var pageHeaderOptions = $('#feedlyPageFX div.extra');
+      pageHeaderOptions.removeClass('col-xs-4');
+      pageHeaderOptions.addClass('col-xs-12');
     };
 
-  var pageUpdate = getPageUpdateFunc($);
+
+  pageUpdate($);
 
   MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
   var observer = new MutationObserver(function(mutations, observer) {
-    pageUpdate();
+    pageUpdate($);
   });
 
-  observer.observe($('div#feedlyCenter'), {
+  observer.observe($('div#feedlyCenter').get(0), {
     subtree: true,
     attributes: false,
     characterData: false,
