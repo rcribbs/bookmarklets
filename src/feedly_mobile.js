@@ -157,7 +157,7 @@ var doWork = function($) {
         pageHeaderOptions.addClass('col-xs-12');
       }
 
-      body = $('body');
+      var body = $('body');
 
       if (body.find('#customMenuButtonContainer').length === 0) {
         console.log("Adding menu button...");
